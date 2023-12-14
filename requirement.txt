@@ -1,0 +1,14 @@
+Pour le bon fonctionnement de l'application
+
+
+Partie global du site
+pip install django
+pip install folium
+pip install json
+pip install requests
+pip install numpy
+pip install branca
+
+
+Partie Administration du site
+pip install mysqlclient

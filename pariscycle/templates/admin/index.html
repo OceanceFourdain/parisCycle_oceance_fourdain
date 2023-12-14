@@ -1,0 +1,154 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+
+{% block coltype %}colMS{% endblock %}
+
+{% block bodyclass %}{{ block.super }} dashboard{% endblock %}
+
+{% block content %}
+
+{% endblock %}
+
+{% block sidebar %}
+
+<div class="container">
+    <div class="row g-0 border rounded-3 shadow-sm position-relative overflow-hidden mt-4">
+
+        <!-- Contacts list -->
+        <div class="col-lg-4">
+          <div id="contactsList" class="offcanvas-lg offcanvas-start position-absolute position-lg-relative h-100 bg-secondary shadow-none border-end" data-bs-scroll="true" data-bs-backdrop="false" style="max-height: 712px;">
+            <div class="card-header w-100 p-4">
+              <div class="d-flex align-items-center justify-content-between mb-4">
+                <h1 class="h3 mb-0">Listes des modules</h1>
+                <button type="button" class="btn btn-link nav-link bg-faded-primary-hover d-lg-none py-2 ps-2 pe-3 me-n3" data-bs-dismiss="offcanvas" data-bs-target="#contactsList">
+                  <i class="bx bx-x fs-xl me-1"></i>
+                  Close
+                </button>
+              </div>
+            </div>
+            <div class="card-body swiper scrollbar-hover overflow-hidden w-100 p-0 swiper-initialized swiper-vertical swiper-pointer-events swiper-free-mode swiper-backface-hidden" data-swiper-options="{
+              &quot;direction&quot;: &quot;vertical&quot;,
+              &quot;slidesPerView&quot;: &quot;auto&quot;,
+              &quot;freeMode&quot;: true,
+              &quot;scrollbar&quot;: {
+                &quot;el&quot;: &quot;.swiper-scrollbar&quot;
+              },
+              &quot;mousewheel&quot;: true
+            }">
+              <div class="swiper-wrapper" id="swiper-wrapper-01bb5fbef461f5ce" aria-live="polite" style="transform: translate3d(0px, 0px, 0px);">
+                <div class="swiper-slide h-auto swiper-slide-active" role="group" aria-label="1 / 1">
+                  
+                    {% if app_list %}
+                    {% for app in app_list %}
+                    <div class="">
+                        <table class="bg-transparent">
+                        <a href="#" class="mx-2 text-decoration-none text-dark" title="{% blocktranslate with name=app.name %}Models in the {{ name }} application{% endblocktranslate %}">{{ app.name }}</a>
+                        {% for model in app.models %}
+                            <tr class="bg-transparent row mt-3">
+                            {% if model.admin_url %}
+                                <th class="col-6"><a class="btn text-info" href="{{ model.admin_url }}"{% if model.admin_url in request.path|urlencode %} aria-current="page"{% endif %}>{{ model.name }}</a></th>
+                            {% else %}
+                                <th class="col-6">{{ model.name }}</th>
+                            {% endif %}
+
+                            {% if model.add_url %}
+                                <td class="col"><a href="{{ model.add_url }}" class="btn btn-primary">{% translate 'Add' %}</a></td>
+                            {% else %}
+                                <td class="col"></td>
+                            {% endif %}
+
+                            {% if model.admin_url and show_changelinks %}
+                                {% if model.view_only %}
+                                <td class="col"><a href="{{ model.admin_url }}" class="btn btn-primary">{% translate 'View' %}</a></td>
+                                {% else %}
+                                <td class="col"><a href="{{ model.admin_url }}" class="btn btn-warning">{% translate 'Change' %}</a></td>
+                                {% endif %}
+                            {% elif show_changelinks %}
+                                <td></td>
+                            {% endif %}
+                            </tr>
+                        {% endfor %}
+                        </table>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <p>{% translate 'You don’t have permission to view or edit anything.' %}</p>
+                    {% endif %}
+                  <!-- Contact -->
+                  
+                </div>
+              </div>
+              <div class="swiper-scrollbar end-0 swiper-scrollbar-vertical swiper-scrollbar-lock"><div class="swiper-scrollbar-drag" style="transform: translate3d(0px, 0px, 0px); height: 0px;"></div></div>
+            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+          </div>
+        </div>
+
+        <!-- Chat window -->
+        <div class="col-lg-8" style="max-height: 712px;">
+          <div class="card h-100 border-0 bg-transparent pb-3">
+            <!-- Header -->
+            <div class="navbar card-header d-flex align-items-center justify-content-between w-100 p-sm-4 p-3">
+                <div class="d-flex align-items-center pe-3">
+                    <button type="button" class="navbar-toggler d-lg-none me-3" data-bs-toggle="offcanvas" data-bs-target="#contactsList" aria-controls="contactsList" aria-label="Toggle contacts list">
+                      <span class="navbar-toggler-icon"></span>
+                    </button>      
+                    <h2>{% translate 'Recent actions' %}</h2>
+                </div>
+            </div>
+            <!-- Messages -->
+            <div class="card-body swiper scrollbar-hover overflow-hidden w-100 pb-0 swiper-initialized swiper-vertical swiper-pointer-events swiper-free-mode swiper-backface-hidden" data-swiper-options="{
+              &quot;direction&quot;: &quot;vertical&quot;,
+              &quot;slidesPerView&quot;: &quot;auto&quot;,
+              &quot;freeMode&quot;: true,
+              &quot;scrollbar&quot;: {
+                &quot;el&quot;: &quot;.swiper-scrollbar&quot;
+              },
+              &quot;mousewheel&quot;: true
+            }">
+            <div class="swiper-wrapper" id="swiper-wrapper-26995aeda1211b9e" aria-live="polite" style="transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;">
+                <div class="swiper-slide h-auto swiper-slide-active" role="group" aria-label="1 / 1">
+
+                  <!-- User message -->
+                  <div class="d-flex align-items-start mb-3">
+                    <div class="ps-2 ms-1" style="max-width: 500px">
+                        {% load log %}
+                        {% get_admin_log 10 as admin_log for_user user %}
+                        {% if not admin_log %}
+                        <p>{% translate 'None available' %}</p>
+                        {% else %}
+                        {% for entry in admin_log %}
+                        <div class="bg-secondary navbar-nav p-3 mb-1" style="border-top-right-radius: .5rem; border-bottom-right-radius: .5rem; border-bottom-left-radius: .5rem;"> 
+                            <li class="nav-item  {% if entry.is_addition %}addlink{% endif %}{% if entry.is_change %}changelink{% endif %}{% if entry.is_deletion %}deletelink{% endif %}">
+                                <span class="visually-hidden">{% if entry.is_addition %}{% translate 'Ajouter:' %}{% elif entry.is_change %}{% translate 'Modifier:' %}{% elif entry.is_deletion %}{% translate 'Supprimer:' %}{% endif %}</span>
+                                {% if entry.is_deletion or not entry.get_admin_url %}
+                                    {{ entry.object_repr }}
+                                {% else %}
+                                    <a class="nav-link" href="{{ entry.get_admin_url }}">{{ entry.object_repr }}</a>
+                                {% endif %}
+                                <br>
+                                {% if entry.content_type %}
+                                    <span class="mini quiet">{% filter capfirst %}{{ entry.content_type.name }}{% endfilter %}</span>
+                                {% else %}
+                                    <span class="mini quiet">{% translate 'Unknown content' %}</span>
+                                {% endif %}
+                            </li>
+                            
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                </div><span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+            </div>
+            <div class="swiper-scrollbar end-0 swiper-scrollbar-vertical"><div class="swiper-scrollbar-drag" style="transform: translate3d(0px, 0px, 0px); height: 348.224px;"></div></div>
+            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+
+            <!-- Footer (Send message form) -->
+            <div class="card-footer d-sm-flex w-100 border-0 pt-3 pb-3 px-4">
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+{% endblock %}

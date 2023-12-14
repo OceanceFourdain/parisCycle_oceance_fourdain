@@ -1,0 +1,21 @@
+{% extends 'index.html' %}
+
+{% block content %}
+{% load static %}
+
+<!-- Card group -->
+{% for article in all_article %}
+    <div class="card w-50 mx-auto mt-5 mb-5 rounded-4 shadow-lg">
+        <img class="card-img-top" src=" {% static article.urlImageArticle %}" alt="Card image">
+        <div class="card-body">
+            <h4 class="card-title">{{ article.titlesArticle }}</h4>
+            <br>
+            <p class="card-text fs-sm">{{ article.descriptionArticle}}</p>
+            <br>
+        </div>
+        <div class="card-footer border-top-0 pt-0 text-end">
+            <span>{{ article.createArticle|date:"d F Y" }}</span>
+        </div>
+    </div>
+    {% endfor %}
+{% endblock %}

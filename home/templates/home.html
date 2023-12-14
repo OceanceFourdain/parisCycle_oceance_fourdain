@@ -1,0 +1,55 @@
+{% extends 'index.html' %}
+
+
+{% block content %}
+{% load static %}
+
+<style>
+    .fixed-table-body {
+        height: 47%!important;
+        overflow: hidden!important;
+    }
+    .float-right .pagination {
+        margin-bottom: 5%!important;
+    }
+    .pagination-detail .pagination-info{
+        display: none!important
+    }
+    .page-list {
+        display: none!important;
+    }
+    .columns {
+        display: none!important;
+    }
+    .search {
+        margin-top: 5%!important;
+        width: 100%!important;
+    }
+</style>
+<div class="card mt-3 rounded-5 ">
+    <img src="{% static '/article/image/visuel-paris-velo.jpg' %}" class="card-img-top rounded-5" alt="Card image">
+</div>
+<table class="table table-striped rounded " data-toggle="table" data-pagination="true" data-page-size="15" data-search="true" data-advanced-search="true" data-show-columns="true">
+    <thead class="bg-primary ">
+        <tr class="text-center">
+            <th class="" data-field="stationcode" data-sortable="true">Station code</th>
+            <th class="" data-sortable="true">Nom de la station</th>
+            <th class="" data-sortable="true">Nombre de vélo dans la station</th>
+            <th class="" data-sortable="true">Nombre de vélo classique</th>
+            <th class="" data-sortable="true">Nombre de vélo électrique</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for record in records %}
+        <tr>
+            <td class="text-center text-dark">{{ record.stationcode }}</td>
+            <td class="text-dark">{{ record.name }}</td>
+            <td class="text-center text-dark">{{ record.capacity }}</td>
+            <td class="text-center text-dark">{{ record.mechanical }}</td>
+            <td class="text-center text-dark">{{ record.ebike }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

@@ -1,0 +1,104 @@
+{% load i18n static %}<!DOCTYPE html>
+{% get_current_language as LANGUAGE_CODE %}{% get_current_language_bidi as LANGUAGE_BIDI %}
+<html lang="{{ LANGUAGE_CODE|default:"en-us" }}" dir="{{ LANGUAGE_BIDI|yesno:'rtl,ltr,auto' }}">
+<head>
+<title>{% block title %}{% endblock %}</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" media="screen" href="{% static '/themes/swiper/swiper-bundle.min.css' %}" />
+<link rel="stylesheet" href="{% static 'themes/css/theme.min.css' %}"/>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>      
+
+{% block dark-mode-vars %}
+  <link rel="stylesheet" href="{% static "admin/css/dark_mode.css" %}">
+  <script src="{% static "admin/js/theme.js" %}" defer></script>
+{% endblock %}
+{% block extrastyle %}{% endblock %}
+{% if LANGUAGE_BIDI %}<link rel="stylesheet" href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}{% endblock %}">{% endif %}
+{% block extrahead %}{% endblock %}
+{% block responsive %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static "admin/css/responsive.css" %}">
+    {% if LANGUAGE_BIDI %}<link rel="stylesheet" href="{% static "admin/css/responsive_rtl.css" %}">{% endif %}
+{% endblock %}
+{% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE">{% endblock %}
+</head>
+
+<body class="{% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %}"
+  data-admin-utc-offset="{% now "Z" %}">
+<!-- Container -->
+<div id="container">
+
+    {% if not is_popup %}
+    <!-- Header -->
+    {% block header %}
+    <header class="navbar navbar-expand-lg bg-light shadow-sm">
+      {% block usertools %}
+      {% if has_permission %}
+      <div class="container">
+        <a href="{% url 'admin:index' %}" class="navbar-brand">
+          Admin dashboard
+        </a>
+        <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse2" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <nav id="navbarCollapse2" class="collapse ms-auto navbar-collapse">
+            {% block welcome-msg %}
+                <strong>{% firstof user.get_short_name user.get_username %}</strong>
+            {% endblock %}
+          <hr class="d-lg-none mt-3 mb-2">
+          <ul class="navbar-nav ms-auto">
+              {% if user.has_usable_password %}
+              <li class="nav-item">
+                <a href="{% url 'admin:password_change' %}" class="nav-link">{% translate 'Modifier le mot de passe' %}</a>
+              </li>
+              {% endif %}
+              <form method="post" action="{% url 'admin:logout' %}">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-primary btn-sm fs-sm rounded order-lg-3 d-none d-lg-inline-flex">{% translate 'Log out' %}</button>
+              </form>
+          </ul>
+        </nav>
+        {% endif %}
+        {% endblock %}
+      </div>
+    </header>
+    {% endblock %}
+    <!-- END Header -->
+    {% endif %}
+
+    <div class="container" id="main">
+      <main id="content-start" class="content" tabindex="-1">
+        {% block messages %}
+          {% if messages %}
+            <ul class="messagelist">{% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|capfirst }}</li>
+            {% endfor %}</ul>
+          {% endif %}
+        {% endblock messages %}
+        <!-- Content -->
+        <div class="container" class="{% block coltype %}colM{% endblock %}">
+          {% block content %}
+            {% block object-tools %}{% endblock %}
+            {{ content }}
+          {% endblock %}
+          {% block sidebar %}{% endblock %}
+          <br class="clear">
+        </div>
+        <!-- END Content -->
+        {% block footer %}<div id="footer"></div>{% endblock %}
+      </main>
+    </div>
+</div>
+<!-- END Container -->
+  <script src="{% static 'themes/swiper/swiper-bundle.min.js' %}"></script>
+  <script src="{% static 'themes/js/theme.min.js' %}"></script> 
+<!-- SVGs -->
+<svg xmlns="http://www.w3.org/2000/svg" class="base-svgs">
+  <symbol viewBox="0 0 24 24" width="1rem" height="1rem" id="icon-auto"><path d="M0 0h24v24H0z" fill="currentColor"/><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2V4a8 8 0 1 0 0 16z"/></symbol>
+  <symbol viewBox="0 0 24 24" width="1rem" height="1rem" id="icon-moon"><path d="M0 0h24v24H0z" fill="currentColor"/><path d="M10 7a7 7 0 0 0 12 4.9v.1c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2h.1A6.979 6.979 0 0 0 10 7zm-6 5a8 8 0 0 0 15.062 3.762A9 9 0 0 1 8.238 4.938 7.999 7.999 0 0 0 4 12z"/></symbol>
+  <symbol viewBox="0 0 24 24" width="1rem" height="1rem" id="icon-sun"><path d="M0 0h24v24H0z" fill="currentColor"/><path d="M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm0-2a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM11 1h2v3h-2V1zm0 19h2v3h-2v-3zM3.515 4.929l1.414-1.414L7.05 5.636 5.636 7.05 3.515 4.93zM16.95 18.364l1.414-1.414 2.121 2.121-1.414 1.414-2.121-2.121zm2.121-14.85l1.414 1.415-2.121 2.121-1.414-1.414 2.121-2.121zM5.636 16.95l1.414 1.414-2.121 2.121-1.414-1.414 2.121-2.121zM23 11v2h-3v-2h3zM4 11v2H1v-2h3z"/></symbol>
+</svg>
+<!-- END SVGs -->
+</body>
+</html>

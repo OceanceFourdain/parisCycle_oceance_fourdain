@@ -1,0 +1,42 @@
+{% extends 'index.html' %}
+
+
+{% block content %}
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.css">
+
+<table class="table table-striped rounded" data-search="true" data-pagination="true" data-search="true" data-url="/Users/oceance/Documents/projects/django-web-app-la-manu/pariscycle/pariscycle/templates/json/velib-disponibilite-en-temps-reel.json">
+    <thead class="rounded">
+        <tr class=" p-2">
+            <td colspan="6">
+                <div class="input-group w-25 ms-auto">
+                    <span class="input-group-text" id="basic-addon1">Search</span>
+                    <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                  </div>
+            </td>
+        </tr>
+        <tr class="text-center">
+            <th class="text-secondary" data-field="stationcode">Station code</th>
+            <th class="text-secondary">Nom de la station</th>
+            <th class="text-secondary">Nombre de vélo dans la station</th>
+            <th class="text-secondary">Nombre de vélo classique</th>
+            <th class="text-secondary">Nombre de vélo électrique</th>
+            <th class="text-secondary">Voir maps</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for record in records %}
+        <tr>
+            <td>{{ record.stationcode }}</td>
+            <td>{{ record.name }}</td>
+            <td class="text-center">{{ record.capacity }}</td>
+            <td class="text-center">{{ record.mechanical }}</td>
+            <td class="text-center">{{ record.ebike }}</td>
+            <td class="text-center"><a class="btn btn-primary" href="">Voir sur la maps</a> </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.16.0/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
+{% endblock %}

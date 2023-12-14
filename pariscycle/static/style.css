@@ -1,0 +1,11 @@
+* {
+    font-family: 'Montserrat';
+    src: url("/Users/oceance/Downloads/Charte Graphique 2/typographie.jfif") format('jfif')!important;
+}
+
+body{
+    height: auto!important;
+  }  
+.footer {
+background-color: #001F33!important;
+}

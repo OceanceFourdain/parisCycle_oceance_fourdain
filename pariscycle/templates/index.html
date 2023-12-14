@@ -1,0 +1,105 @@
+{% load static %}
+<style>
+
+</style>
+<!doctype html>
+<html lang="fr">
+    <head>
+        <title>Paris</title>
+        <meta charset="utf8"/>
+
+        <link rel="icon" type="image/svg" href="{% static 'themes/logo/logo_paris_cycle-blanc.svg'%}" />
+        <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="{% static 'style.css' %}" />
+        <link rel="stylesheet" href="{% static 'themes/css/theme.min.css' %}"/>    
+
+        <link rel="stylesheet" media="screen" href="{% static 'themes/boxicons/css/boxicons.min.css' %}">
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-lg">
+            <div class="container-fluid">
+              <img src="{% static '/themes/logo/logo_paris_cycle.svg' %}" width="47" alt="Paris cycle" />
+              <a class="navbar-brand ms-2" href="#">Paris Cycle</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home'%}">Home</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'maps' %}">Maps</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'article' %}">Articles </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../admin">Admin</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+          <div class="container mt-2 mb-2">
+            {% block content %}{% endblock %}
+          </div>
+          <footer class="footer border-top border-light pt-5 pb-4 pb-lg-5">
+            <div class="container pt-lg-4">
+              <div class="row pb-5">
+                <div class="col-lg-4 col-md-6">
+                  <div class="navbar-brand text-light p-0 me-0 mb-3 mb-lg-4">
+                    <img src="{% static 'themes/logo/logo_paris_cycle-blanc.svg' %}" width="47" alt="Paris cycle">
+                    Paris
+                  </div>
+                  <p class="fs-sm text-light opacity-70 pb-lg-3 mb-4">Proin ipsum pharetra, senectus eget scelerisque varius pretium platea velit. Lacus, eget eu vitae nullam proin turpis etiam mi sit. Non feugiat feugiat egestas nulla nec. Arcu tempus, eget elementum dolor ullamcorper sodales ultrices eros.</p>
+                </div>
+                <div class="col-xl-6 col-lg-7 col-md-5 offset-xl-2 offset-md-1 pt-4 pt-md-1 pt-lg-0">
+                  <div id="footer-links" class="row">
+                    <div class="col-lg-4">
+                      <h6 class="mb-2">
+                        <a href="#useful-links" class="d-block text-dark dropdown-toggle d-lg-none py-2" data-bs-toggle="collapse">Useful Links</a>
+                      </h6>
+                      <div id="useful-links" class="collapse d-lg-block text-white" data-bs-parent="#footer-links">
+                        <ul class="nav flex-column pb-lg-1 mb-lg-3">
+                          <li class="nav-item"><a href="{% url 'home' %}" class="nav-link text-light d-inline-block px-0 pt-1 pb-2">Home</a></li>
+                          <li class="nav-item"><a href="{% url 'maps' %}" class="nav-link text-light d-inline-block px-0 pt-1 pb-2">Maps</a></li>
+                          <li class="nav-item"><a href="{% url 'article' %}" class="nav-link text-light d-inline-block px-0 pt-1 pb-2">Article</a></li>
+                        </ul>
+                        <ul class="nav flex-column mb-2 mb-lg-0">
+                          <li class="nav-item"><a href="#" class="nav-link text-light d-inline-block px-0 pt-1 pb-2">Terms &amp; Conditions</a></li>
+                          <li class="nav-item"><a href="#" class="nav-link text-light d-inline-block px-0 pt-1 pb-2">Privacy Policy</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-3">
+                      <h6 class="mb-2">
+                        <a href="#social-links" class="d-block text-dark dropdown-toggle d-lg-none py-2" data-bs-toggle="collapse">Socials</a>
+                      </h6>
+                      <div id="social-links" class="collapse d-lg-block" data-bs-parent="#footer-links">
+                        <ul class="nav flex-column mb-2 mb-lg-0">
+                          <li class="nav-item"><a href="#" class="nav-link text-light d-inline-block px-0 pt-1 pb-2">Facebook</a></li>
+                          <li class="nav-item"><a href="#" class="nav-link text-light d-inline-block px-0 pt-1 pb-2">LinkedIn</a></li>
+                          <li class="nav-item"><a href="#" class="nav-link text-light d-inline-block px-0 pt-1 pb-2">Twitter</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-5 pt-2 pt-lg-0">
+                      <h6 class="mb-2 text-light">Contact Fr</h6>
+                      <a href="mailto:email@example.com" class="fw-medium">contact@pariscycle.com</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </footer>
+      <script src="{% static 'themes/js/theme.min.js' %}"></script>
+      <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>  
+      <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
+      <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script> 
+      <script src="https://unpkg.com/bootstrap-table@1.22.1/dist/extensions/toolbar/bootstrap-table-toolbar.min.js"></script>
+    </body>
+    
+</html>
